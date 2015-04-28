@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require "rhythmmml/command"
+
+Rhythmmml::Command.run(ARGV)
