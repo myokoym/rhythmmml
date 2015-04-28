@@ -13,11 +13,11 @@ module Rhythmmml
     end
 
     def update
-      @scenes[0].update
+      current_scene.update
     end
 
     def draw
-      @scenes[0].draw
+      current_scene.draw
     end
 
     def button_down(id)
@@ -25,6 +25,11 @@ module Rhythmmml
       when Gosu::KbEscape
         close
       end
+    end
+
+    private
+    def current_scene
+      @scenes[0]
     end
   end
 end
