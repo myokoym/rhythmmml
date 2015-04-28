@@ -1,4 +1,5 @@
 require "gosu"
+require "rhythmmml/line"
 
 module Rhythmmml
   module Scene
@@ -44,7 +45,17 @@ module Rhythmmml
     class Main
       include Base
 
+      def initialize(window)
+        super
+        bar_y = @window.height * 0.8
+        @bar = Line.new(@window,
+                        0, bar_y,
+                        @window.width, bar_y,
+                        Gosu::Color::WHITE)
+      end
+
       def draw
+        @bar.draw
         @font.draw("Main", 0, 0, 3)
       end
 
