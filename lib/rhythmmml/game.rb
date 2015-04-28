@@ -3,7 +3,7 @@ require "rhythmmml/scene"
 
 module Rhythmmml
   class Game < Gosu::Window
-    attr_reader :mml, :options
+    attr_reader :mml, :options, :scenes
     def initialize(mml, options={})
       super(640, 480, false)
       @mml = mml
