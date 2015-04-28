@@ -24,6 +24,8 @@ module Rhythmmml
       case id
       when Gosu::KbEscape
         close
+      else
+        current_scene.button_down(id)
       end
     end
 
