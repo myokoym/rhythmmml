@@ -5,6 +5,7 @@ module Rhythmmml
     module Base
       def initialize(window)
         @window = window
+        @font = Gosu::Font.new(@window, "data/fonts/PressStart2P.ttf", 24)
       end
 
       def update
@@ -29,6 +30,7 @@ module Rhythmmml
       end
 
       def draw
+        @font.draw("Title", 0, 0, 3)
       end
 
       def button_down(id)
@@ -43,6 +45,7 @@ module Rhythmmml
       include Base
 
       def draw
+        @font.draw("Main", 0, 0, 3)
       end
 
       def button_down(id)
