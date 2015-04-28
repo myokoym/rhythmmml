@@ -1,4 +1,4 @@
-# Rhythmmml
+# Rhythmmml [![Gem Version](https://badge.fury.io/rb/rhythmml.svg)](http://badge.fury.io/rb/rhythmml)
 
 A rhythm game for MML (Music Macro Language) by Gosu with Ruby.
 
