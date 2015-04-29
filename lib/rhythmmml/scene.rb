@@ -1,7 +1,7 @@
 require "gosu"
 require "mml2wav"
 require "wavefile"
-require "tempfile"
+require "tmpdir"
 require "rhythmmml/object"
 require "rhythmmml/figure"
 require "rhythmmml/parser"
@@ -152,13 +152,14 @@ module Rhythmmml
             distance = (@bar_y - rhythm.y).abs
             if distance < 10
               @info.score += 10 - distance
-              Tempfile.open(["rhythmmml", ".wav"]) do |tempfile|
-                WaveFile::Writer.new(tempfile, @format) do |writer|
+              Dir.mktmpdir("rhythmmml") do |dir|
+                path = File.join(dir, "a.wav")
+                WaveFile::Writer.new(path, @format) do |writer|
                   samples = sine_wave(*rhythm.info[2])
                   buffer = WaveFile::Buffer.new(samples, @buffer_format)
                   writer.write(buffer)
                 end
-                Gosu::Sample.new(@window, tempfile.path).play
+                Gosu::Sample.new(@window, path).play
               end
               @objects.delete(rhythm)
               @rhythms.delete(rhythm)
