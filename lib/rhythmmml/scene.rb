@@ -1,6 +1,6 @@
 require "gosu"
-require "rhythmmml/line"
 require "rhythmmml/object"
+require "rhythmmml/figure"
 
 module Rhythmmml
   module Scene
@@ -8,12 +8,17 @@ module Rhythmmml
       def initialize(window)
         @window = window
         @font = Gosu::Font.new(@window, "data/fonts/PressStart2P.ttf", 24)
+        @objects = []
+        @figures = []
       end
 
       def update
+        @objects.each {|object| object.update }
       end
 
       def draw
+        @objects.each {|object| object.draw }
+        @figures.each {|figure| figure.draw }
       end
 
       def button_down(id)
@@ -29,9 +34,11 @@ module Rhythmmml
       end
 
       def update
+        super
       end
 
       def draw
+        super
         @font.draw("Title", 0, 0, 3)
       end
 
@@ -48,21 +55,23 @@ module Rhythmmml
 
       def initialize(window)
         super
-        bar_y = @window.height * 0.8
-        @bar = Line.new(@window,
-                        0, bar_y,
-                        @window.width, bar_y,
-                        Gosu::Color::WHITE)
         @rhythm = Object::Rhythm.new(@window, @window.width / 2, 0)
+        @objects << @rhythm
+
+        bar_y = @window.height * 0.8
+        @bar = Figure::Bar.new(@window,
+                               0, bar_y,
+                               @window.width, bar_y,
+                               Gosu::Color::WHITE)
+        @figures << @bar
       end
 
       def update
-        @rhythm.update
+        super
       end
 
       def draw
-        @bar.draw
-        @rhythm.draw
+        super
         @font.draw("Main", 0, 0, 3)
       end
 
