@@ -116,7 +116,7 @@ module Rhythmmml
                                0, bar_y,
                                @window.width, bar_y)
         @figures << @bar
-        @sampling_rate = @window.options[:sampling_rate] || 8000
+        @sampling_rate = @window.options[:sampling_rate] || 22050
         @parser = Mml2wav::Parser.new(@window.mml.delete("r"), @sampling_rate, @window.options)
         @format = WaveFile::Format.new(:mono, :pcm_8, @sampling_rate)
         @buffer_format = WaveFile::Format.new(:mono, :float, @sampling_rate)
