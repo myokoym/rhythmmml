@@ -141,14 +141,14 @@ module Rhythmmml
             distance = (@bar_y - rhythm.y).abs
             if distance < 10
               @info.score += 10 - distance
-          Tempfile.open(["rhythmmml", ".wav"]) do |tempfile|
-            WaveFile::Writer.new(tempfile, @format) do |writer|
-              samples = sine_wave(*rhythm.info[2])
-              buffer = WaveFile::Buffer.new(samples, @buffer_format)
-              writer.write(buffer)
-            end
-            Gosu::Sample.new(@window, tempfile.path).play
-          end
+              Tempfile.open(["rhythmmml", ".wav"]) do |tempfile|
+                WaveFile::Writer.new(tempfile, @format) do |writer|
+                  samples = sine_wave(*rhythm.info[2])
+                  buffer = WaveFile::Buffer.new(samples, @buffer_format)
+                  writer.write(buffer)
+                end
+                Gosu::Sample.new(@window, tempfile.path).play
+              end
               @objects.delete(rhythm)
               @rhythms.delete(rhythm)
               break
