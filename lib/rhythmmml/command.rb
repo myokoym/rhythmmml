@@ -37,10 +37,11 @@ module Rhythmmml
                 "Reverse octave sign (><) effects") do |boolean|
         options[:octave_reverse] = boolean
       end
-      parser.on("--channel_delimiter=DELIMITER",
-                "Specify channel delimiter") do |delimiter|
-        options[:channel_delimiter] = delimiter
-      end
+      # TODO: support stereo
+      #parser.on("--channel_delimiter=DELIMITER",
+      #          "Specify channel delimiter") do |delimiter|
+      #  options[:channel_delimiter] = delimiter
+      #end
       parser.parse!(arguments)
 
       unless File.pipe?('/dev/stdin') || IO.select([ARGF], nil, nil, 0)
