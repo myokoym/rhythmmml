@@ -81,13 +81,13 @@ module Rhythmmml
       def initialize(window)
         super
         rhythms = Parser.new(@window.mml, @window.options).parse
-        position = 0
+        y = 0
         rhythms.each do |rhythm|
           scale = rhythm[0]
           x_space = @window.width / 8
           case scale
           when /r/i
-            position -= rhythm[1] * 60
+            y -= rhythm[1] * 60
             next
           when /c/i
             x = x_space * 1
@@ -104,8 +104,8 @@ module Rhythmmml
           when /b/i
             x = x_space * 7
           end
-          @objects << Object::Rhythm.new(@window, x, position)
-          position -= rhythm[1] * 60
+          @objects << Object::Rhythm.new(@window, x, y)
+          y -= rhythm[1] * 60
         end
 
         @info = Object::Info.new(@window, @window.width * 0.7, 0)
