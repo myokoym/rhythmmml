@@ -10,7 +10,7 @@ module Rhythmmml
 
     def initialize(arguments)
       options = parse_options(arguments)
-      mml = ARGF.readlines
+      mml = ARGF.readlines.join.split(/,/).first
       @game = Game.new(mml, options)
     end
 

@@ -1,6 +1,10 @@
 require "gosu"
+require "mml2wav"
+require "wavefile"
+require "tempfile"
 require "rhythmmml/object"
 require "rhythmmml/figure"
+require "rhythmmml/parser"
 require "rhythmmml/z_order"
 
 module Rhythmmml
@@ -45,7 +49,6 @@ module Rhythmmml
                                        @window.width,
                                        :center)
         @guide_color = Gosu::Color::WHITE
-        @main = Main.new(@window)
       end
 
       def update
@@ -67,7 +70,7 @@ module Rhythmmml
       def button_down(id)
         case id
         when Gosu::KbReturn
-          @window.scenes.unshift(@main)
+          @window.scenes.unshift(Main.new(@window))
         end
       end
     end
@@ -77,8 +80,17 @@ module Rhythmmml
 
       def initialize(window)
         super
-        @rhythm = Object::Rhythm.new(@window, @window.width / 2, 0)
-        @objects << @rhythm
+        rhythms = Parser.new(@window.mml, @window.options).parse
+        position = 0
+        rhythms.each do |rhythm|
+          scale = rhythm[0]
+          position -= rhythm[1] * 50
+          if /r/i =~ scale
+            next
+          end
+          rhythm = Object::Rhythm.new(@window, @window.width / 2, position)
+          @objects << rhythm
+        end
 
         @info = Object::Info.new(@window, @window.width * 0.7, 0)
         @objects << @info
@@ -88,6 +100,10 @@ module Rhythmmml
                                0, bar_y,
                                @window.width, bar_y)
         @figures << @bar
+        @sampling_rate = @window.options[:sampling_rate] || 8000
+        @parser = Mml2wav::Parser.new(@window.mml.delete("r"), @sampling_rate)
+        @format = WaveFile::Format.new(:mono, :pcm_8, @sampling_rate)
+        @buffer_format = WaveFile::Format.new(:mono, :float, @sampling_rate)
       end
 
       def update
@@ -102,6 +118,19 @@ module Rhythmmml
         case id
         when Gosu::KbQ
           @window.scenes.shift
+        when Gosu::KbJ
+          Tempfile.open(["rhythmmml", ".wav"]) do |tempfile|
+            WaveFile::Writer.new(tempfile, @format) do |writer|
+              samples = @parser.wave!
+              unless samples
+                @parser = Mml2wav::Parser.new(@window.mml.delete("r"), @sampling_rate)
+                samples = @parser.wave!
+              end
+              buffer = WaveFile::Buffer.new(samples, @buffer_format)
+              writer.write(buffer)
+            end
+            Gosu::Sample.new(@window, tempfile.path).play
+          end
         end
       end
     end

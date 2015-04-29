@@ -36,8 +36,8 @@ module Rhythmmml
 
       def initialize(window, x, y, options={})
         super
-        @width2 = @window.width * 0.2 / 2
-        @height2 = @window.height * 0.1 / 2
+        @width2 = @window.width * 0.1 / 2
+        @height2 = @window.height * 0.02 / 2
       end
 
       def update
