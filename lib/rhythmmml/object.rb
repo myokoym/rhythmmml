@@ -35,8 +35,10 @@ module Rhythmmml
     class Rhythm
       include Base
 
-      def initialize(window, x, y, options={})
-        super
+      attr_reader :info
+      def initialize(window, x, y, info, options={})
+        super(window, x, y, options)
+        @info = info
         @width2 = @window.width * 0.1 / 2
         @height2 = @window.height * 0.02 / 2
       end

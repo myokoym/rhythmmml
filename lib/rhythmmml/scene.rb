@@ -81,7 +81,8 @@ module Rhythmmml
       def initialize(window)
         super
         @rhythms = []
-        rhythm_infos = Parser.new(@window.mml, @window.options).parse
+        @sampling_rate = @window.options[:sampling_rate] || 22050
+        rhythm_infos = Parser.new(@window.mml, @sampling_rate, @window.options).parse
         y = 0
         rhythm_infos.each do |rhythm_info|
           scale = rhythm_info[0]
@@ -105,7 +106,7 @@ module Rhythmmml
           when /b/i
             x = x_space * 7
           end
-          rhythm = Object::Rhythm.new(@window, x, y)
+          rhythm = Object::Rhythm.new(@window, x, y, rhythm_info)
           @rhythms << rhythm
           @objects << rhythm
           y -= rhythm_info[1] * 60
@@ -119,8 +120,6 @@ module Rhythmmml
                                0, @bar_y,
                                @window.width, @bar_y)
         @figures << @bar
-        @sampling_rate = @window.options[:sampling_rate] || 22050
-        @parser = Mml2wav::Parser.new(@window.mml.delete("r"), @sampling_rate, @window.options)
         @format = WaveFile::Format.new(:mono, :pcm_8, @sampling_rate)
         @buffer_format = WaveFile::Format.new(:mono, :float, @sampling_rate)
       end
@@ -142,23 +141,31 @@ module Rhythmmml
             distance = (@bar_y - rhythm.y).abs
             if distance < 10
               @info.score += 10 - distance
-              @objects.delete(rhythm)
-              @rhythms.delete(rhythm)
-              break
-            end
-          end
           Tempfile.open(["rhythmmml", ".wav"]) do |tempfile|
             WaveFile::Writer.new(tempfile, @format) do |writer|
-              samples = @parser.wave!
-              unless samples
-                @parser = Mml2wav::Parser.new(@window.mml.delete("r"), @sampling_rate, @window.options)
-                samples = @parser.wave!
-              end
+              samples = sine_wave(*rhythm.info[2])
               buffer = WaveFile::Buffer.new(samples, @buffer_format)
               writer.write(buffer)
             end
             Gosu::Sample.new(@window, tempfile.path).play
           end
+              @objects.delete(rhythm)
+              @rhythms.delete(rhythm)
+              break
+            end
+          end
+        end
+      end
+
+      private
+      def sine_wave(frequency, sampling_rate, sec, amplitude=0.5)
+        max = sampling_rate * sec
+        if frequency == 0
+          return Array.new(max) { 0.0 }
+        end
+        base_x = 2.0 * Math::PI * frequency / sampling_rate
+        1.upto(max).collect do |n|
+          amplitude * Math.sin(base_x * n)
         end
       end
     end
