@@ -8,7 +8,6 @@ module Rhythmmml
     module Base
       def initialize(window)
         @window = window
-        @font = Gosu::Font.new(@window, "data/fonts/PressStart2P.ttf", 24)
         @objects = []
         @figures = []
       end
@@ -31,16 +30,38 @@ module Rhythmmml
 
       def initialize(window)
         super
+        @title = Gosu::Image.from_text(@window,
+                                       "Rhythmmml",
+                                       "data/fonts/PressStart2P.ttf",
+                                       64,
+                                       4,
+                                       @window.width,
+                                       :center)
+        @guide = Gosu::Image.from_text(@window,
+                                       "press enter",
+                                       "data/fonts/PressStart2P.ttf",
+                                       36,
+                                       4,
+                                       @window.width,
+                                       :center)
+        @guide_color = Gosu::Color::WHITE
         @main = Main.new(@window)
       end
 
       def update
         super
+        if Time.now.sec % 2 == 0
+          @guide_color = Gosu::Color::WHITE
+        else
+          @guide_color = Gosu::Color::GRAY
+        end
       end
 
       def draw
         super
-        @font.draw("Title", 0, 0, ZOrder::TEXT)
+        @title.draw(0, @window.height * 0.2, ZOrder::TEXT)
+        @guide.draw(0, @window.height * 0.6, ZOrder::TEXT,
+                    1, 1, @guide_color)
       end
 
       def button_down(id)

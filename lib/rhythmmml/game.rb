@@ -6,6 +6,7 @@ module Rhythmmml
     attr_reader :mml, :options, :scenes
     def initialize(mml, options={})
       super(640, 480, false)
+      self.caption = "Rhythmmml"
       @mml = mml
       @options = options
       @scenes = []
