@@ -136,7 +136,7 @@ module Rhythmmml
         case id
         when Gosu::KbQ
           @window.scenes.shift
-        when Gosu::KbJ
+        when Gosu::KbSpace
           @rhythms.each do |rhythm|
             distance = (@bar_y - rhythm.y).abs
             if distance < 10
