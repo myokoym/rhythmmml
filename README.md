@@ -2,6 +2,8 @@
 
 A rhythm game for MML (Music Macro Language) by Gosu with Ruby.
 
+![Rhythmmml Demo](http://myokoym.net/public/rhythmmml-demo.png)
+
 ## Dependencies
 
 * [Gosu](https://www.libgosu.org/)
