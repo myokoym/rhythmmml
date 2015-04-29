@@ -11,9 +11,11 @@ module Rhythmmml
         @color = options[:color] || Gosu::Color::WHITE
         @z_order = options[:z_order] || ZOrder::OBJECT
         @font_name = options[:font_name] || "PressStart2P"
+        @font_path = File.join(@window.options[:font_dir],
+                               "#{@font_name}.ttf")
         @font_size = options[:font_size] || 24
         @font = Gosu::Font.new(@window,
-                               "data/fonts/#{@font_name}.ttf",
+                               @font_path,
                                @font_size)
       end
 

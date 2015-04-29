@@ -12,6 +12,8 @@ module Rhythmmml
     module Base
       def initialize(window)
         @window = window
+        @font_path = File.join(@window.options[:font_dir],
+                               "PressStart2P.ttf")
         @objects = []
         @figures = []
       end
@@ -36,14 +38,14 @@ module Rhythmmml
         super
         @title = Gosu::Image.from_text(@window,
                                        "Rhythmmml",
-                                       "data/fonts/PressStart2P.ttf",
+                                       @font_path,
                                        64,
                                        4,
                                        @window.width,
                                        :center)
         @guide = Gosu::Image.from_text(@window,
                                        "press enter",
-                                       "data/fonts/PressStart2P.ttf",
+                                       @font_path,
                                        36,
                                        4,
                                        @window.width,
@@ -125,7 +127,7 @@ module Rhythmmml
 
         @guide = Gosu::Image.from_text(@window,
                                        "press space key",
-                                       "data/fonts/PressStart2P.ttf",
+                                       @font_path,
                                        20,
                                        4,
                                        @window.width,

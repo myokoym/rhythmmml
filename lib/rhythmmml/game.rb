@@ -11,6 +11,7 @@ module Rhythmmml
       self.caption = "Rhythmmml"
       @mml = mml
       @options = options
+      @options[:font_dir] ||= File.expand_path("../../../data/fonts", __FILE__)
       @scenes = []
       @scenes << Scene::Title.new(self)
     end
