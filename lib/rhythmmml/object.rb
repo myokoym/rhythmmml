@@ -1,11 +1,14 @@
+require "rhythmmml/z_order"
+
 module Rhythmmml
   module Object
     module Base
-      def initialize(window, x, y, color=nil)
+      def initialize(window, x, y, options={})
         @window = window
         @x = x
         @y = y
-        @color = color || Gosu::Color::WHITE
+        @color = options[:color] || Gosu::Color::WHITE
+        @z_order = options[:z_order] || ZOrder::OBJECT
       end
 
       def draw_rectangle(x1, y1, x2, y2, color, z)
@@ -20,7 +23,7 @@ module Rhythmmml
     class Rhythm
       include Base
 
-      def initialize(window, x, y, color=nil)
+      def initialize(window, x, y, options={})
         super
         @width2 = @window.width * 0.2 / 2
         @height2 = @window.height * 0.1 / 2
@@ -35,7 +38,7 @@ module Rhythmmml
         y1 = @y - @height2
         x2 = @x + @width2
         y2 = @y + @height2
-        draw_rectangle(x1, y1, x2, y2, @color, 2)
+        draw_rectangle(x1, y1, x2, y2, @color, @z_order)
       end
     end
   end

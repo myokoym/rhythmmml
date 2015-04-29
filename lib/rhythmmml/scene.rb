@@ -1,6 +1,7 @@
 require "gosu"
 require "rhythmmml/object"
 require "rhythmmml/figure"
+require "rhythmmml/z_order"
 
 module Rhythmmml
   module Scene
@@ -39,7 +40,7 @@ module Rhythmmml
 
       def draw
         super
-        @font.draw("Title", 0, 0, 3)
+        @font.draw("Title", 0, 0, ZOrder::TEXT)
       end
 
       def button_down(id)
@@ -61,8 +62,7 @@ module Rhythmmml
         bar_y = @window.height * 0.8
         @bar = Figure::Bar.new(@window,
                                0, bar_y,
-                               @window.width, bar_y,
-                               Gosu::Color::WHITE)
+                               @window.width, bar_y)
         @figures << @bar
       end
 
@@ -72,7 +72,7 @@ module Rhythmmml
 
       def draw
         super
-        @font.draw("Main", 0, 0, 3)
+        @font.draw("Main", 0, 0, ZOrder::TEXT)
       end
 
       def button_down(id)
