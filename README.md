@@ -20,6 +20,10 @@ Or
 
     $ echo 'MML TEXT' | rhythmmml
 
+## Example
+
+    $ echo 't100 cdercdergedcdedr' | rhythmmml
+
 ## License
 
 MIT License. See LICENSE.txt for details.
