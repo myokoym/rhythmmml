@@ -9,6 +9,17 @@ module Rhythmmml
         @y = y
         @color = options[:color] || Gosu::Color::WHITE
         @z_order = options[:z_order] || ZOrder::OBJECT
+        @font_name = options[:font_name] || "PressStart2P"
+        @font_size = options[:font_size] || 24
+        @font = Gosu::Font.new(@window,
+                               "data/fonts/#{@font_name}.ttf",
+                               @font_size)
+      end
+
+      def update
+      end
+
+      def draw
       end
 
       def draw_rectangle(x1, y1, x2, y2, color, z)
@@ -39,6 +50,21 @@ module Rhythmmml
         x2 = @x + @width2
         y2 = @y + @height2
         draw_rectangle(x1, y1, x2, y2, @color, @z_order)
+      end
+    end
+
+    class Info
+      include Base
+
+      attr_accessor :score
+      def initialize(window, x, y, options={})
+        super
+        @score = 0
+      end
+
+      def draw
+        @font.draw("SCORE:", @x, @y, @z_order)
+        @font.draw("%08d" % @score, @x, @y + @font_size, @z_order)
       end
     end
   end

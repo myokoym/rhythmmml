@@ -59,6 +59,9 @@ module Rhythmmml
         @rhythm = Object::Rhythm.new(@window, @window.width / 2, 0)
         @objects << @rhythm
 
+        @info = Object::Info.new(@window, @window.width * 0.7, 0)
+        @objects << @info
+
         bar_y = @window.height * 0.8
         @bar = Figure::Bar.new(@window,
                                0, bar_y,
@@ -72,7 +75,6 @@ module Rhythmmml
 
       def draw
         super
-        @font.draw("Main", 0, 0, ZOrder::TEXT)
       end
 
       def button_down(id)
