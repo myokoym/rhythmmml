@@ -84,11 +84,27 @@ module Rhythmmml
         position = 0
         rhythms.each do |rhythm|
           scale = rhythm[0]
-          if /r/i =~ scale
+          x_space = @window.width / 8
+          case scale
+          when /r/i
             position -= rhythm[1] * 60
             next
+          when /c/i
+            x = x_space * 1
+          when /d/i
+            x = x_space * 2
+          when /e/i
+            x = x_space * 3
+          when /f/i
+            x = x_space * 4
+          when /g/i
+            x = x_space * 5
+          when /a/i
+            x = x_space * 6
+          when /b/i
+            x = x_space * 7
           end
-          @objects << Object::Rhythm.new(@window, @window.width / 2, position)
+          @objects << Object::Rhythm.new(@window, x, position)
           position -= rhythm[1] * 60
         end
 
