@@ -84,12 +84,12 @@ module Rhythmmml
         position = 0
         rhythms.each do |rhythm|
           scale = rhythm[0]
-          position -= rhythm[1] * 50
           if /r/i =~ scale
+            position -= rhythm[1] * 60
             next
           end
-          rhythm = Object::Rhythm.new(@window, @window.width / 2, position)
-          @objects << rhythm
+          @objects << Object::Rhythm.new(@window, @window.width / 2, position)
+          position -= rhythm[1] * 60
         end
 
         @info = Object::Info.new(@window, @window.width * 0.7, 0)
