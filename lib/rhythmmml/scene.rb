@@ -106,6 +106,7 @@ module Rhythmmml
             x = x_space * 7
           end
           rhythm = Object::Rhythm.new(@window, x, y)
+          @rhythms << rhythm
           @objects << rhythm
           y -= rhythm_info[1] * 60
         end
@@ -113,10 +114,10 @@ module Rhythmmml
         @info = Object::Info.new(@window, @window.width * 0.7, 0)
         @objects << @info
 
-        bar_y = @window.height * 0.8
+        @bar_y = @window.height * 0.8
         @bar = Figure::Bar.new(@window,
-                               0, bar_y,
-                               @window.width, bar_y)
+                               0, @bar_y,
+                               @window.width, @bar_y)
         @figures << @bar
         @sampling_rate = @window.options[:sampling_rate] || 22050
         @parser = Mml2wav::Parser.new(@window.mml.delete("r"), @sampling_rate, @window.options)
@@ -137,6 +138,15 @@ module Rhythmmml
         when Gosu::KbQ
           @window.scenes.shift
         when Gosu::KbJ
+          @rhythms.each do |rhythm|
+            distance = (@bar_y - rhythm.y).abs
+            if distance < 10
+              @info.score += 10 - distance
+              @objects.delete(rhythm)
+              @rhythms.delete(rhythm)
+              break
+            end
+          end
           Tempfile.open(["rhythmmml", ".wav"]) do |tempfile|
             WaveFile::Writer.new(tempfile, @format) do |writer|
               samples = @parser.wave!

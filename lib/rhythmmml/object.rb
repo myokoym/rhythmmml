@@ -3,6 +3,7 @@ require "rhythmmml/z_order"
 module Rhythmmml
   module Object
     module Base
+      attr_reader :x, :y
       def initialize(window, x, y, options={})
         @window = window
         @x = x
