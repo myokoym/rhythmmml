@@ -122,6 +122,14 @@ module Rhythmmml
         @figures << @bar
         @format = WaveFile::Format.new(:mono, :pcm_8, @sampling_rate)
         @buffer_format = WaveFile::Format.new(:mono, :float, @sampling_rate)
+
+        @guide = Gosu::Image.from_text(@window,
+                                       "press space key",
+                                       "data/fonts/PressStart2P.ttf",
+                                       20,
+                                       4,
+                                       @window.width,
+                                       :center)
       end
 
       def update
@@ -130,6 +138,7 @@ module Rhythmmml
 
       def draw
         super
+        @guide.draw(0, @window.height * 0.9, ZOrder::TEXT)
       end
 
       def button_down(id)
