@@ -1,4 +1,6 @@
 require "gosu"
+require "gosu/swig_patches"
+require "gosu/patches"
 require "rhythmmml/scene"
 
 module Rhythmmml
