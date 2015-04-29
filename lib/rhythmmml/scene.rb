@@ -1,5 +1,6 @@
 require "gosu"
 require "rhythmmml/line"
+require "rhythmmml/object"
 
 module Rhythmmml
   module Scene
@@ -52,10 +53,16 @@ module Rhythmmml
                         0, bar_y,
                         @window.width, bar_y,
                         Gosu::Color::WHITE)
+        @rhythm = Object::Rhythm.new(@window, @window.width / 2, 0)
+      end
+
+      def update
+        @rhythm.update
       end
 
       def draw
         @bar.draw
+        @rhythm.draw
         @font.draw("Main", 0, 0, 3)
       end
 
