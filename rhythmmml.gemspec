@@ -21,6 +21,8 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency("gosu")
   spec.add_runtime_dependency("mml2wav")
 
+  spec.add_development_dependency("test-unit")
+  spec.add_development_dependency("test-unit-notify")
   spec.add_development_dependency("bundler")
   spec.add_development_dependency("rake")
 end
