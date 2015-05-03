@@ -30,10 +30,10 @@ module Rhythmmml
         when /\AL(\d+)/i
           @default_length = $1.to_f
           next
-        when /\A([A-GR][#+-]?)(\d+)(\.)?/i
-          length = $2.to_f
+        when /\A([A-GR][#+-]?)(\d+)?(\.)?/i
           sound = $1
-          length = @default_length / 1.5 if $3
+          length = $2.to_f if $2
+          length /= 1.5 if $3
         when /\AO(\d+)/i
           @octave = $1.to_i
           next
