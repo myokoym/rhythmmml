@@ -155,10 +155,11 @@ module Rhythmmml
               Dir.mktmpdir("rhythmmml") do |dir|
                 path = File.join(dir, "a.wav")
                 WaveFile::Writer.new(path, @format) do |writer|
-                  samples = sine_wave(rhythm.info[:frequency],
-                                      rhythm.info[:sampling_rate],
-                                      rhythm.info[:sec],
-                                      rhythm.info[:amplitude])
+                  info = rhythm.info
+                  samples = Mml2wav::Wave.sine_wave(info[:frequency],
+                                                    info[:sampling_rate],
+                                                    info[:sec],
+                                                    info[:amplitude])
                   buffer = WaveFile::Buffer.new(samples, @buffer_format)
                   writer.write(buffer)
                 end
@@ -169,18 +170,6 @@ module Rhythmmml
               break
             end
           end
-        end
-      end
-
-      private
-      def sine_wave(frequency, sampling_rate, sec, amplitude=0.5)
-        max = sampling_rate * sec
-        if frequency == 0
-          return Array.new(max) { 0.0 }
-        end
-        base_x = 2.0 * Math::PI * frequency / sampling_rate
-        1.upto(max).collect do |n|
-          amplitude * Math.sin(base_x * n)
         end
       end
     end
