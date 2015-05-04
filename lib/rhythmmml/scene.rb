@@ -84,14 +84,14 @@ module Rhythmmml
         super
         @rhythms = []
         @sampling_rate = @window.options[:sampling_rate] || 22050
-        rhythm_infos = Parser.new(@window.mml, @sampling_rate, @window.options).parse
+        rhythm_infos = Mml2wav::Parser.new(@window.mml, @sampling_rate, @window.options).parse
         y = 0
         rhythm_infos.each do |rhythm_info|
-          scale = rhythm_info[0]
+          scale = rhythm_info[:sound]
           x_space = @window.width / 8
           case scale
           when /r/i
-            y -= rhythm_info[1] * 60
+            y -= rhythm_info[:sec] * 60
             next
           when /c/i
             x = x_space * 1
@@ -111,7 +111,7 @@ module Rhythmmml
           rhythm = Object::Rhythm.new(@window, x, y, rhythm_info)
           @rhythms << rhythm
           @objects << rhythm
-          y -= rhythm_info[1] * 60
+          y -= rhythm_info[:sec] * 60
         end
 
         @info = Object::Info.new(@window, @window.width * 0.7, 0)
@@ -155,7 +155,10 @@ module Rhythmmml
               Dir.mktmpdir("rhythmmml") do |dir|
                 path = File.join(dir, "a.wav")
                 WaveFile::Writer.new(path, @format) do |writer|
-                  samples = sine_wave(*rhythm.info[2])
+                  samples = sine_wave(rhythm.info[:frequency],
+                                      rhythm.info[:sampling_rate],
+                                      rhythm.info[:sec],
+                                      rhythm.info[:amplitude])
                   buffer = WaveFile::Buffer.new(samples, @buffer_format)
                   writer.write(buffer)
                 end
