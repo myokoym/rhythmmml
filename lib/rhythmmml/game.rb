@@ -7,7 +7,10 @@ module Rhythmmml
   class Game < Gosu::Window
     attr_reader :mml, :options, :scenes
     def initialize(mml, options={})
-      super(640, 480, false)
+      width = options[:width] || 640
+      height = options[:height] || 480
+      fullscreen = options[:fullscreen] || false
+      super(width, height, fullscreen)
       self.caption = "Rhythmmml"
       @mml = mml
       @options = options
