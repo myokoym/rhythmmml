@@ -1,3 +1,6 @@
-require "rhythmmml/scale"
+require "rhythmmml/game"
+require "rhythmmml/figure"
+require "rhythmmml/object"
+require "rhythmmml/scene"
 require "rhythmmml/version"
-require "rhythmmml/wave"
+require "rhythmmml/z_order"
