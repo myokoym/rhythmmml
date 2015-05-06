@@ -18,7 +18,7 @@ class TestScene < Test::Unit::TestCase
 
   class MainTest < self
     def test_main
-      assert_not_nil(Rhythmmml::Scene::Title.new(@window))
+      assert_not_nil(Rhythmmml::Scene::Main.new(@window))
     end
   end
 end
