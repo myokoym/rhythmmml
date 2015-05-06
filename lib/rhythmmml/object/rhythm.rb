@@ -1,4 +1,4 @@
-require "rhythmmml/z_order"
+require "rhythmmml/object/base"
 
 module Rhythmmml
   module Object

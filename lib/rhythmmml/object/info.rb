@@ -1,3 +1,5 @@
+require "rhythmmml/object/base"
+
 module Rhythmmml
   module Object
     class Info
