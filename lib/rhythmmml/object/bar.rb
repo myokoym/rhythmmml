@@ -1,20 +1,12 @@
-require "rhythmmml/z_order"
+require "rhythmmml/object/base"
 
 module Rhythmmml
-  module Figure
-    module Base
-      def initialize(window, options={})
-        @window = window
-        @color = options[:color] || Gosu::Color::WHITE
-        @z_order = options[:z_order] || ZOrder::FIGURE
-      end
-    end
-
+  module Object
     class Bar
       include Base
 
       def initialize(window, x1, y1, x2, y2, options={})
-        super(window, options)
+        super(window, x1, y1, options)
         @x1 = x1
         @y1 = y1
         @x2 = x2
