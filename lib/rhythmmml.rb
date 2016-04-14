@@ -1,5 +1,4 @@
 require "rhythmmml/game"
-require "rhythmmml/figure"
 require "rhythmmml/object"
 require "rhythmmml/scene"
 require "rhythmmml/version"

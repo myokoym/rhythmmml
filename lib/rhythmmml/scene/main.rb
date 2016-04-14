@@ -3,7 +3,6 @@ require "mml2wav"
 require "wavefile"
 require "tmpdir"
 require "rhythmmml/object"
-require "rhythmmml/figure"
 require "rhythmmml/parser"
 require "rhythmmml/z_order"
 require "rhythmmml/scene/base"
@@ -51,7 +50,7 @@ module Rhythmmml
         @objects << @info
 
         @bar_y = @window.height * 0.8
-        @bar = Figure::Bar.new(@window,
+        @bar = Object::Bar.new(@window,
                                0, @bar_y,
                                @window.width, @bar_y)
         @figures << @bar
