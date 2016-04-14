@@ -3,7 +3,6 @@ require "mml2wav"
 require "wavefile"
 require "tmpdir"
 require "rhythmmml/object"
-require "rhythmmml/parser"
 require "rhythmmml/z_order"
 require "rhythmmml/scene/base"
 
